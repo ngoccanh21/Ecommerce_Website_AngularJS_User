@@ -1,0 +1,205 @@
+<app-header></app-header>
+ <!-- Begin Main Content Area -->
+ <main class="main-content">
+    <div class="breadcrumb-area breadcrumb-height" data-bg-image="assets/images/banner/banner-4.png">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-item">
+                        <h2 class="breadcrumb-heading">Sản phẩm liên quan</h2>
+                        <ul>
+                            <li>
+                                <a>Trang chủ <i class="pe-7s-angle-right"></i></a>
+                            </li>
+                            <li>Giỏ hàng</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form action="javascript:void(0)">
+                        <div class="table-content table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="product_remove">Thao tác</th>
+                                        <th class="product-thumbnail">Ảnh</th>
+                                        <th class="cart-product-name">Tên sản phẩm</th>
+                                        <th class="cart-product-name">Kích cỡ</th>
+                                        <th class="product-price">Giá sản phẩm</th>
+                                        <th class="product-quantity">Số lượng</th>
+                                        <th class="product-subtotal">Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of cartitems; let i = index">
+                                        <td class="product_remove">
+                                            <a>
+                                                <!-- <i class="fa-solid fa-trash"></i> -->
+                                                <i class="fa-solid fa-trash" title="Remove" (click)="deleteItem(item.id)"></i>
+                                            </a>
+                                        </td>
+                                        <td class="product-thumbnail">
+                                            <a>
+                                                <img style="width: 100px;height: 100px;" src="http://localhost:18058/images/{{item.anh}}" alt="Cart Thumbnail">
+                                            </a>
+                                        </td>
+                                        <td class="product-name"><a>{{item.tenSP}}</a></td>
+                                        <td class="quantity">
+                                            <div>
+                                               
+                                                <i style="margin: 0px 5px 0px 0px;" class="fa-sharp fa-solid fa-arrow-left" (click)="giamsize(item)"></i>
+                                                <input style="width: 40px; font-weight: bold; text-align: center;" class="cart-plus-minus-box" min="1" value="{{item.size}}" type="text">
+                                                <i style="margin: 0px 0px 0px 5px;" class="fa-sharp fa-solid fa-arrow-right" (click)="tangsize(item)"></i>
+                                            </div>
+                                        </td>
+                                        <td class="product-price"><span class="amount">{{item.giaBan | number}} VND</span></td>
+                                        <td class="quantity">
+                                            <div>
+                                                <!-- class="cart-plus-minus" -->
+                                                <!-- #inp (change)="addQty(item.quantity,item.value)" -->
+                                                <i style="margin: 0px 5px 0px 0px;" class="fa-sharp fa-solid fa-minus" (click)="giamqty(item)"></i>
+                                                <input style="width: 60px; font-weight: bold; text-align: center;" class="cart-plus-minus-box" min="1" value="{{item.quantity}}" type="text">
+                                                <i style="margin: 0px 0px 0px 5px;" class="fa-solid fa-plus" (click)="tangqty(item)"></i>
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal"><span class="amount">{{item.giaBan*item.quantity | number}} VND</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="coupon-all">
+                                    <!-- <div class="coupon">
+                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                        <input class="button mt-xxs-30" name="apply_coupon" value="Apply coupon" type="submit">
+                                    </div> -->
+                                    <div class="coupon2">
+                                        <input class="button" name="update_cart" value="Xoá toàn bộ sản phẩm trong giỏ" type="button" (click)="clearCart()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 ml-auto">
+                                <div class="cart-page-total">
+                                    <h2>Tổng giá trị giỏ hàng</h2>
+                                    <ul>
+                                        <li>Tổng tiền <span>{{total | number}} VND</span></li>
+                                        <li>Phí vận chuyển<span>{{phiship | number}} VND</span></li>
+                                        <li>Tổng tiền thành toán <span>{{total + phiship | number}} VND</span></li>
+                                    </ul>
+                                    <a routerLink="/checkout">Tiến hành thanh toán</a>
+                                    <!-- <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openForm()">Thanh toán</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- ttđonhang -->
+                    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Thông tin thanh toán</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form [formGroup]="formValue">
+                                        <div>
+                                            <span>thông tin đơn hàng</span>
+                                            <div>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail">Ảnh</th>
+                                                            <th class="cart-product-name">Tên sản phẩm</th>
+                                                            <th class="product-price">Giá sản phẩm</th>
+                                                            <th class="product-quantity">Só lượng</th>
+                                                            <th class="product-subtotal">Thành tiền</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let gh of cartitems; let i = index">
+                                                            <td class="product-thumbnail">
+                                                                <a>
+                                                                    <img style="width: 100px;height: 100px;" src="http://localhost:18058/images/{{gh.anh}}" alt="Cart Thumbnail">
+                                                                </a>
+                                                            </td>
+                                                            <td class="product-name"><a>{{gh.tenSP}}</a></td>
+                                                            <td class="product-price"><span class="amount">{{gh.giaBan | number}} VND</span></td>
+                                                            <td class="quantity">
+                                                                <div>
+                                                                    <input style="width: 60px; font-weight: bold; text-align: center;" class="cart-plus-minus-box" min="1" value="{{gh.quantity}}" type="text">
+                                                                </div>
+                                                            </td>
+                                                            <td class="product-subtotal"><span class="amount">{{total + phiship | number}} VND</span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <span>nhập tt người nhận</span>
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">ngày bán</label>
+                                            <input type="date" class="form-control" id="recipient-name" value="" formControlName="ngayBan">
+                                        </div>
+                                        
+                                        <div class="mb-3" hidden="true">
+                                            <label for="recipient-name" class="col-form-label">Tên sản phẩm</label>
+                                            <input type="text" class="form-control" id="recipient-name" value="" formControlName="tenSP">
+                                        </div>
+                                        <div class="mb-3" hidden="true">
+                                            <label for="recipient-name" class="col-form-label">Số lượng</label>
+                                            <input type="text" class="form-control" id="recipient-name" value="" formControlName="soLuong">
+                                        </div>
+                                        
+                                        
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">Tên</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="tenKH">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">dịa chỉ</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="diaChi">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">Số điện thoại</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="sdt">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">tk</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="tk">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">mk</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="pass">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">ảnh</label>
+                                            <input type="text" class="form-control" id="recipient-name" formControlName="anh">
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" (click)="addttKhachHang()">Thanh toán</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Main Content Area End Here -->
+<app-footer></app-footer>
